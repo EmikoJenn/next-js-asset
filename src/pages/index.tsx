@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import useGlobalStore from '../store/globals'
 
 export const getServerSideProps = async ({ locale }) => ({
     props: {
@@ -11,6 +12,8 @@ export const getServerSideProps = async ({ locale }) => ({
 
 export default function Home() {
   const { t, i18n } = useTranslation("common")
+  const increaseCounter = useGlobalStore(state => state.increaseCounter)
+  const decreaseCounter = useGlobalStore(state => state.decreaseCounter)
 
   function toggleLang() {
     return i18n.language === "en-US" ? "es-MX" : "en-US"
@@ -30,6 +33,10 @@ export default function Home() {
         <Link href="/" locale={toggleLang()}>
           Toggle Language 
         </Link>
+        <br />
+        { useGlobalStore(state => state.counter) } <br />
+        <button onClick={increaseCounter}>Increment</button>
+        <button onClick={decreaseCounter}>Decrement</button>
       </main>
     </>
   )
