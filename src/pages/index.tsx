@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import useGlobalStore from '../store/globals'
+import useGlobalStore from '@/store/globals'
 
 export const getServerSideProps = async ({ locale }) => ({
     props: {
@@ -16,7 +16,7 @@ export default function Home() {
   const decreaseCounter = useGlobalStore(state => state.decreaseCounter)
 
   function toggleLang() {
-    return i18n.language === "en-US" ? "es-MX" : "en-US"
+    return i18n.language === "en" ? "es" : "en"
   }
 
   return (
@@ -28,7 +28,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        {t("WELCOME")}
+        <h2 className="text-3xl font-bold underline">{t("WELCOME")}</h2>
         <br/>
         <Link href="/" locale={toggleLang()}>
           Toggle Language 
