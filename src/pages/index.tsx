@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useQuery } from '@tanstack/react-query'
 import useGlobalStore from '@/store/globals'
 
 export const getServerSideProps = async ({ locale }) => ({
@@ -14,6 +15,11 @@ export default function Home() {
   const { t, i18n } = useTranslation("common")
   const increaseCounter = useGlobalStore(state => state.increaseCounter)
   const decreaseCounter = useGlobalStore(state => state.decreaseCounter)
+  const { isPending, data } = useQuery({ queryKey: ['test'], queryFn: () => fetch("/api",{
+    headers: {
+      "Content-Type": "application/json",
+    }
+  }).then(res => res.json()) })
 
   function toggleLang() {
     return i18n.language === "en" ? "es" : "en"
@@ -34,8 +40,12 @@ export default function Home() {
           Toggle Language 
         </Link>
         <br />
+        {isPending && <h3>Wait...</h3>}
+        {data.join(" - ")}
+        <br />
         { useGlobalStore(state => state.counter) } <br />
         <button onClick={increaseCounter}>Increment</button>
+        {" "}|{" "}
         <button onClick={decreaseCounter}>Decrement</button>
       </main>
     </>
