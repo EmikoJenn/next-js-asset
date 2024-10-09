@@ -41,7 +41,7 @@ export default function Home() {
         </Link>
         <br />
         {isPending && <h3>Wait...</h3>}
-        {data.join(" - ")}
+        {data}
         <br />
         { useGlobalStore(state => state.counter) } <br />
         <button onClick={increaseCounter}>Increment</button>
